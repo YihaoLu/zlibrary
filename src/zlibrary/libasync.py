@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 from .logger import logger
 from .exception import EmptyQueryError, NoDomainError, ProxyNotMatchError
-from .util import GET_request, POST_request
+from .util import GET_request, POST_request, stream_request
 from .abs import SearchPaginator
 from .profile import ZlibProfile
 
@@ -85,6 +85,9 @@ class AsyncZlib:
                 return await GET_request(url, proxy_list=self.proxy_list, cookies=self.cookies)
         else:
             return await GET_request(url, proxy_list=self.proxy_list, cookies=self.cookies)
+        
+    def download_book(self, fn: str, url: str):
+        return stream_request(fn, url, cookies=self.cookies, proxy_list=self.proxy_list)
 
     async def login(self, email: str, password: str):
         data = {
