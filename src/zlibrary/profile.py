@@ -1,5 +1,6 @@
 from datetime import date
 from .abs import DownloadsPaginator
+from typing import List
 from .booklists import Booklists, OrderOptions
 
 
@@ -28,16 +29,16 @@ class ZlibProfile:
         paginator = DownloadsPaginator(url, page, self.__r, self.mirror)
         return await paginator.init()
 
-    async def search_public_booklists(self, q: str, count: int = 10, order: OrderOptions = ""):
+    async def search_public_booklists(self, q: str, count: int = 10, order: OrderOptions = "", lang: List[str] = []):
         if order:
             assert isinstance(order, OrderOptions)
         
         paginator = Booklists(self.__r, self.cookies, self.mirror)
-        return await paginator.search_public(q, count=count, order=order)
+        return await paginator.search_public(q, count=count, order=order, lang=lang)
 
-    async def search_private_booklists(self, q: str, count: int = 10, order: OrderOptions = ""):
+    async def search_private_booklists(self, q: str, count: int = 10, order: OrderOptions = "", lang: List[str] = []):
         if order:
             assert isinstance(order, OrderOptions)
         
         paginator = Booklists(self.__r, self.cookies, self.mirror)
-        return await paginator.search_private(q, count=count, order=order)
+        return await paginator.search_private(q, count=count, order=order, lang=lang)

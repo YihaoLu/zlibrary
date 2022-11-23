@@ -130,11 +130,12 @@ class SearchPaginator:
         return await self.__r('%s&page=%d' % (self.__url, self.page))
 
     async def next(self):
-        if self.__pos >= len(self.storage[self.page]):
+        if self.__pos >= len(self.storage[self.page]) and self.page < self.total:
             await self.next_page()
 
         self.result = self.storage[self.page][self.__pos : self.__pos + self.count]
         self.__pos += self.count
+        # self.__pos = min(self.__pos + self.count, len(self.storage[self.page]))
         return self.result
 
     async def prev(self):
@@ -287,7 +288,7 @@ class BooklistPaginator:
         return await self.__r('%s&page=%d' % (self.__url, self.page))
 
     async def next(self):
-        if self.__pos >= len(self.storage[self.page]):
+        if self.__pos >= len(self.storage[self.page]) and self.page < self.total:
             await self.next_page()
 
         self.result = self.storage[self.page][self.__pos : self.__pos + self.count]
@@ -569,7 +570,7 @@ class BooklistItemPaginator(dict):
         return await self.__r('%s/%d' % (self.__url, self.page))
 
     async def next(self):
-        if self.__pos >= len(self.storage[self.page]):
+        if self.__pos >= len(self.storage[self.page]) and self.page < self.total:
             await self.next_page()
 
         self.result = self.storage[self.page][self.__pos : self.__pos + self.count]
